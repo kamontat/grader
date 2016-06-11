@@ -16,6 +16,7 @@ class Test(models.Model):
 
 
 class Problem(models.Model):
+	test = models.ForeignKey(Test)
 	name = models.CharField(max_length=255)
 	description = models.TextField(blank=True)
 	point = models.IntegerField(default=1)
@@ -28,7 +29,7 @@ class Problem(models.Model):
 			('java', 'Java'),
 			('php', 'PHP'),
 		])
-	input = models.FileField(upload_to='input', null=True, verbose_name='Input generator source')
+	input = models.FileField(upload_to='input', null=True, blank=True, verbose_name='Input generator source')
 
 	output_lang = models.CharField(max_length=10, null=True, blank=True,
 		verbose_name='Solution language', choices=[
@@ -42,13 +43,11 @@ class Problem(models.Model):
 			('py3', 'Python 3'),
 			('rb', 'Ruby'),
 		])
-	output = models.FileField(upload_to='output', null=True, verbose_name='Solution')
+	output = models.FileField(upload_to='output', null=True, blank=True, verbose_name='Solution')
 
 	comparator = models.CharField(max_length=10, default="hash", choices=[
 		('hash', 'Grader'),
 	], editable=False)
-
-	test = models.ForeignKey(Test)
 
 	def __str__(self):
 		return self.name
