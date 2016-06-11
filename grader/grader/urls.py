@@ -19,5 +19,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^server/admin/', admin.site.urls),
     url(r'server/', include('authapi.urls')),
-    url(r'server/', include('problems.urls'))
+    url(r'server/', include('problems.urls')),
+    url(r'server/', include('submission.urls')),
 ]
