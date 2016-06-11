@@ -1,3 +1,5 @@
+import json
+
 from django.db import models
 from django.contrib.auth.models import User
 from grader.beanstalk import beanstalk
@@ -47,11 +49,11 @@ class Result(models.Model):
 			'comparator': self.problem.comparator,
 			'input': {
 				'lang': self.problem.input_lang,
-				'code': self.problem.input.read()
+				'code': self.problem.input.read().decode('utf8')
 			},
 			'output': {
 				'lang': self.problem.output_lang,
-				'code': self.problem.output.read()
+				'code': self.problem.output.read().decode('utf8')
 			},
 			'submission': {
 				'lang': self.lang,
@@ -65,4 +67,4 @@ class Result(models.Model):
 
 	def create_job(self):
 		beanstalk.use('grader')
-		beanstalk.put(self.create_job_data())
+		beanstalk.put(json.dumps(self.create_job_data()))

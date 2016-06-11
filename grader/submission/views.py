@@ -31,7 +31,7 @@ class Submit(APIView):
 		except Problem.DoesNotExist:
 			raise NotFound
 
-		if not problem.is_visible() and not self.request.user.has_perm('problems.change_problem'):
+		if not problem.test.is_visible() and not self.request.user.has_perm('problems.change_problem'):
 			raise NotFound
 
 		if not self.is_problem_allow_submission(problem):
@@ -41,8 +41,11 @@ class Submit(APIView):
 		if not self.is_problem_ready(problem):
 			raise ProblemNotReady
 
-		if request.data['lang'] not in config['allowed']:
-			raise ValidationError('Language is not allowed for submission')
+		try:
+			if request.data['lang'] not in config['grader']['allowed']:
+				raise ValidationError('Language is not allowed for submission')
+		except KeyError:
+			raise ProblemNotReady
 
 		result = Result(
 			problem = problem,
@@ -51,15 +54,15 @@ class Submit(APIView):
 			correct = None,
 			code = request.data['code'],
 			lang = request.data['lang'],
-			count_stats = self.is_counting_stats()
+			count_stats = self.is_counting_stats(problem)
 		)
 		result.save()
 
 		result.create_job()
 
 		return Response({
-			success: True,
-			id: result.id,
+			'success': True,
+			'id': result.id,
 		})
 
 	def is_problem_allow_submission(self, problem):

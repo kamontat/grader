@@ -21,7 +21,7 @@ mime = {
 @login_required
 def load_submission(request, id):
 	submission = get_object_or_404(Result, pk=id)
-	if submission.user != request.user:
+	if submission.user != request.user and not request.user.has_perm('problems.change_problem'):
 		raise HttpResponseForbidden
 
 	return HttpResponse(submission.code, content_type=mime.get(submission.lang, 'text/plain'))
