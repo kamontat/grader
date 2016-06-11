@@ -1,8 +1,11 @@
 import json
 
+from django.db.models import Sum, Count
+
 from rest_framework import serializers
 
 from .models import *
+from submission.models import Result
 
 class TestSerializer(serializers.ModelSerializer):
 	acl_edit = serializers.SerializerMethodField('can_edit')
@@ -21,13 +24,29 @@ class TestSerializer(serializers.ModelSerializer):
 		if not self.context['request'].user.is_authenticated():
 			return None
 
-		return 1
+		sum = Result.objects.filter(
+			user=self.context['request'].user,
+			state=2,
+			correct=1,
+			problem__test=object,
+			count_stats=True
+		).aggregate(Sum('problem__point'))['problem__point__sum']
+		if not sum:
+			sum = 0
+
+		return sum
 
 	def get_user_finished(self, object):
 		if not self.context['request'].user.is_authenticated():
 			return None
 
-		return 1
+		return Result.objects.filter(
+			user=self.context['request'].user,
+			state=2,
+			correct=1,
+			problem__test=object,
+			count_stats=True
+		).count()
 
 	class Meta:
 		model = Test
