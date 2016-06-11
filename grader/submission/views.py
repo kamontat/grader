@@ -94,7 +94,7 @@ class Scoreboard(APIView):
 			INNER JOIN `problems_problem` ON `problems_problem`.`id` = `submission_result`.`problem_id`
 			WHERE `submission_result`.`state` = 2
 			AND `submission_result`.`user_id` = %s
-			AND `problems`.`test_id` = %s
+			AND `problems_problem`.`test_id` = %s
 			ORDER BY (CASE WHEN `submission_result`.`correct` = 1 THEN 1 ELSE 0 END) ASC, `size` DESC, `id` ASC""", [user[0], test.id])
 
 			problems = {}
