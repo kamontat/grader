@@ -8,5 +8,11 @@ class TestViewSet(viewsets.ModelViewSet):
 	serializer_class = TestSerializer
 
 class ProblemViewSet(viewsets.ModelViewSet):
-	queryset = Problem.objects.all()
 	serializer_class = ProblemSerializer
+
+	def get_queryset(self):
+		self.request
+
+		return Problem.objects.filter(
+			test_id=self.kwargs['test_pk']
+		).order_by('name')

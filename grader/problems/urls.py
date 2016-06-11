@@ -6,8 +6,8 @@ from .views import *
 router = routers.SimpleRouter()
 router.register(r'test', TestViewSet)
 
-test_router = routers.NestedSimpleRouter(router, r'test')
-test_router.register(r'problems', ProblemViewSet)
+test_router = routers.NestedSimpleRouter(router, r'test', lookup='test')
+test_router.register(r'problems', ProblemViewSet, base_name='problems')
 
 urlpatterns = [
 	url(r'^', include(router.urls)),
