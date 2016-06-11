@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'authapi',
     'problems',
     'submission',
+    'codeload',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -132,6 +133,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/server/codeload/'
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,

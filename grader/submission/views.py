@@ -31,7 +31,7 @@ class Submit(APIView):
 		except Problem.DoesNotExist:
 			raise NotFound
 
-		if not problem.is_visible() and not self.request.user.has_perm('change_problem'):
+		if not problem.is_visible() and not self.request.user.has_perm('problems.change_problem'):
 			raise NotFound
 
 		if not self.is_problem_allow_submission(problem):
@@ -63,7 +63,7 @@ class Submit(APIView):
 		})
 
 	def is_problem_allow_submission(self, problem):
-		return not problem.test.is_readonly() or self.request.user.has_perm('change_problem')
+		return not problem.test.is_readonly() or self.request.user.has_perm('problems.change_problem')
 
 	def is_problem_ready(self, problem):
 		config = problem.get_graders()

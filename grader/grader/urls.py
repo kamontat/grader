@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'server/', include('authapi.urls')),
     url(r'server/', include('problems.urls')),
     url(r'server/', include('submission.urls')),
+    url(r'server/codeload/', include('codeload.urls')),
 ]
