@@ -1,7 +1,7 @@
 import json
-from datetime import datetime
 
 from django.db import models
+from django.utils import timezone
 
 class Test(models.Model):
 	name = models.CharField(max_length=255)
@@ -18,7 +18,7 @@ class Test(models.Model):
 		if not self.start:
 			return True
 
-		return datetime.now() > self.start
+		return timezone.now() > self.start
 
 	def is_readonly(self):
 		if self.readonly:
@@ -28,7 +28,7 @@ class Test(models.Model):
 			return False
 
 		if self.end:
-			return datetime.now() > self.end
+			return timezone.now() > self.end
 
 		return False
 
