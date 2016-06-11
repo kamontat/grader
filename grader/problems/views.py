@@ -4,7 +4,7 @@ from .models import *
 from .serializers import *
 
 class TestViewSet(viewsets.ModelViewSet):
-	queryset = Test.objects.all()
+	queryset = Test.objects.all().order_by('name')
 	serializer_class = TestSerializer
 
 class ProblemViewSet(viewsets.ModelViewSet):
