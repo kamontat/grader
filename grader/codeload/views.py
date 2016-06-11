@@ -1,9 +1,9 @@
-from django.http import HttpResponse, FileResponse
-from django.http import HttpResponseForbidden
+from django.http import HttpResponse, FileResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, login_required
 
 from problems.models import Problem
+from submission.models import Result
 
 mime = {
 	'php': 'text/x-php',
@@ -18,8 +18,13 @@ mime = {
 	'java': 'text/x-java'
 }
 
+@login_required
 def load_submission(request, id):
-	pass
+	submission = get_object_or_404(Result, pk=id)
+	if submission.user != request.user:
+		raise HttpResponseForbidden
+
+	return HttpResponse(submission.code, content_type=mime.get(submission.lang, 'text/plain'))
 
 @permission_required('problems.change_problem')
 def load_input(request, id):
