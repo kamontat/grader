@@ -72,7 +72,12 @@ class ProblemSerializer(serializers.ModelSerializer):
 		if not self.context['request'].user.is_authenticated():
 			return None
 
-		return False
+		return Result.objects.filter(
+			user=self.context['request'].user,
+			state=2,
+			correct=1,
+			problem=object
+		).exists()
 
 	def get_graders(self, object):
 		out = object.get_graders()
