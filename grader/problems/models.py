@@ -5,11 +5,14 @@ class Test(models.Model):
 	mode = models.CharField(max_length=15, default='practice', choices=[
 		('practice', 'Practice'),
 	], editable=False)
-	start = models.DateTimeField(null=True, help_text='Time to start this test. Users without permission will not see the test until this time')
-	end = models.DateTimeField(null=True, help_text='Time to end this test. Users without permission will be unable to submit solution')
+	start = models.DateTimeField(null=True, blank=True, help_text='Time to start this test. Users without permission will not see the test until this time')
+	end = models.DateTimeField(null=True, blank=True, help_text='Time to end this test. Users without permission will be unable to submit solution')
 	readonly = models.BooleanField(default=False, help_text='Disable submission. Users with permission will still able to submit solution regardless.')
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
+
+	def __str__(self):
+		return self.name
 
 
 class Problem(models.Model):
@@ -46,3 +49,6 @@ class Problem(models.Model):
 	], editable=False)
 
 	test = models.ForeignKey(Test)
+
+	def __str__(self):
+		return self.name

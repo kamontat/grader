@@ -41,7 +41,7 @@ class Register(APIView):
 			raise ParseError('username and password is required')
 
 		try:
-			user = User.objects.create_user(request.data['username'], 'notrequired@example.com', request.data['password'])
+			user = User.objects.create_user(request.data['username'], None, request.data['password'])
 			user.save()
 		except IntegrityError:
 			raise APIException('Unable to create user')

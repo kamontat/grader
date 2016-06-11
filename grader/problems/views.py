@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from rest_framework import viewsets
 
-# Create your views here.
+from .models import *
+from .serializers import *
+
+class TestViewSet(viewsets.ModelViewSet):
+	queryset = Test.objects.all()
+	serializer_class = TestSerializer

@@ -148,6 +148,6 @@ REGISTER_ALLOWED = True
 FRONTEND_URL = '/frontend/'
 
 try:
-    from local_settings import *
+    from .local_settings import *
 except ImportError:
     pass

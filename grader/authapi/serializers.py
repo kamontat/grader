@@ -7,7 +7,7 @@ class UserSerializer(serializers.ModelSerializer):
 	admin = serializers.SerializerMethodField('is_admin')
 
 	def is_admin(self, user):
-		return user.has_perm('problems.create_tests')
+		return user.has_perm('problems.add_test')
 
 	class Meta:
 		model = User
