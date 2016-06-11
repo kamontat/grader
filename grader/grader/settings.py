@@ -148,6 +148,7 @@ REST_FRAMEWORK = {
 
 REGISTER_ALLOWED = True
 FRONTEND_URL = '/frontend/'
+BEANSTALK = ('127.0.0.1', 11300)
 
 try:
     from .local_settings import *

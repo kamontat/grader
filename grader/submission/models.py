@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from grader.beanstalk import beanstalk
 
 class Result(models.Model):
 	problem = models.ForeignKey('problems.Problem')
@@ -36,3 +37,31 @@ class Result(models.Model):
 			self.problem.name,
 			self.user.username
 		)
+
+	def create_job_data(self):
+		config = self.problem.get_graders()
+		return {
+			'type': 'grade',
+			'result_id': self.id,
+			'comparator': self.problem.comparator,
+			'input': {
+				'lang': self.problem.input_lang,
+				'code': self.problem.input.read()
+			},
+			'output': {
+				'lang': self.problem.output_lang,
+				'code': self.problem.output.read()
+			},
+			'submission': {
+				'lang': self.lang,
+				'code': self.code
+			},
+			'limits': {
+				'mem': config.get('memory_limit', None),
+				'mem': config.get('memory_limit', None),
+			}
+		}
+
+	def create_job(self):
+		beanstalk.use('grader')
+		beanstalk.put(self.create_job_data())

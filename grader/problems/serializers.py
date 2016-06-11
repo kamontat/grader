@@ -75,25 +75,16 @@ class ProblemSerializer(serializers.ModelSerializer):
 		return False
 
 	def get_graders(self, object):
-		try:
-			data = json.loads(object.graders)
-		except json.decoder.JSONDecodeError:
-			data = {}
+		out = object.get_graders()
 
-		if type(data) != dict:
-			data = {}
+		if not self.can_edit(object):
+			for key in ('codejam', 'grader'):
+				try:
+					del out['key']
+				except KeyError:
+					pass
 
-		if not object.input or (not object.output and object.comparator == 'hash'):
-			data['invalid'] = True
-
-			if not self.can_edit(object):
-				for key in ('codejam', 'grader'):
-					try:
-						del data['key']
-					except KeyError:
-						pass
-
-		return data
+		return out
 
 	class Meta:
 		model = Problem

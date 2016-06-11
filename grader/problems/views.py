@@ -28,6 +28,6 @@ class ProblemViewSet(viewsets.ModelViewSet):
 		).order_by('name')
 
 		if not self.request.user.has_perm('change_test'):
-			objects = objects.filter(Q(start__lte=datetime.now()) | Q(start=None))
+			objects = objects.filter(Q(test__start__lte=datetime.now()) | Q(test__start=None))
 
 		return objects

@@ -1,4 +1,6 @@
+import json
 from datetime import datetime
+
 from django.db import models
 
 class Test(models.Model):
@@ -21,6 +23,9 @@ class Test(models.Model):
 	def is_readonly(self):
 		if self.readonly:
 			return self.readonly
+
+		if not self.is_visible():
+			return False
 
 		if self.end:
 			return datetime.now() > self.end
@@ -64,6 +69,20 @@ class Problem(models.Model):
 	comparator = models.CharField(max_length=10, default="hash", choices=[
 		('hash', 'Grader'),
 	], editable=False)
+
+	def get_graders(self):
+		try:
+			data = json.loads(self.graders)
+		except json.decoder.JSONDecodeError:
+			data = {}
+
+		if type(data) != dict:
+			data = {}
+
+		if not self.input or (not self.output and self.comparator == 'hash'):
+			data['invalid'] = True
+
+		return data
 
 	def __str__(self):
 		return self.name
