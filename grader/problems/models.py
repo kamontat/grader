@@ -35,6 +35,9 @@ class Test(models.Model):
 	def __str__(self):
 		return self.name
 
+	class Meta:
+		ordering = ['name']
+
 
 class Problem(models.Model):
 	test = models.ForeignKey(Test)
@@ -86,3 +89,6 @@ class Problem(models.Model):
 
 	def __str__(self):
 		return self.name
+
+	class Meta:
+		ordering = ['name']
