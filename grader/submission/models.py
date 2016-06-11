@@ -30,6 +30,7 @@ class Result(models.Model):
 			['id', 'state', 'correct', 'count_stats'],
 			['user', 'state', 'correct', 'problem']
 		]
+		ordering = ['-id']
 
 	def __str__(self):
 		return 'Submission {} to problem {} by {}'.format(

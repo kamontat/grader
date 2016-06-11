@@ -3,7 +3,7 @@ from django.conf.urls import url, include
 from rest_framework_nested import routers
 from .views import *
 
-router = routers.SimpleRouter()
+router = routers.SimpleRouter(trailing_slash=False)
 router.register(r'test', TestViewSet, base_name='tests')
 
 test_router = routers.NestedSimpleRouter(router, r'test', lookup='test')

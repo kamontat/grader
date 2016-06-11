@@ -1,6 +1,7 @@
 import json
 
 from rest_framework.views import APIView
+from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.exceptions import NotFound, PermissionDenied, APIException, ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -8,6 +9,15 @@ from rest_framework.response import Response
 from problems.models import Test, Problem
 from grader.beanstalk import beanstalk
 from .serializers import *
+
+class ResultsViewSet(ReadOnlyModelViewSet):
+	serializer_class = ResultSerializer
+
+	def get_queryset(self):
+		return Result.objects.filter(
+			problem_id=self.kwargs['problem_id'],
+			user=self.request.user,
+		)
 
 class Submit(APIView):
 	permission_classes = (IsAuthenticated,)
