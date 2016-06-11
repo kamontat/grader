@@ -23,6 +23,9 @@ class Stats(APIView):
 		except Test.DoesNotExist:
 			raise NotFound
 
+		if not request.user.has_perm('change_test') and not test.is_visible():
+			raise NotFound
+
 		cursor = connection.cursor()
 		cursor.execute("""SELECT `problems_problem`.`id` AS `id`,
 			(

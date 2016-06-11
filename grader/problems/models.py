@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 
 class Test(models.Model):
@@ -10,6 +11,21 @@ class Test(models.Model):
 	readonly = models.BooleanField(default=False, help_text='Disable submission. Users with permission will still able to submit solution regardless.')
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
+
+	def is_visible(self):
+		if not self.start:
+			return True
+
+		return datetime.now() > self.start
+
+	def is_readonly(self):
+		if self.readonly:
+			return self.readonly
+
+		if self.end:
+			return datetime.now() > self.end
+
+		return False
 
 	def __str__(self):
 		return self.name

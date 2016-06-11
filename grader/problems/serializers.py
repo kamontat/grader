@@ -12,6 +12,7 @@ class TestSerializer(serializers.ModelSerializer):
 	problem = serializers.SerializerMethodField()
 	score = serializers.SerializerMethodField('get_user_score')
 	finished = serializers.SerializerMethodField('get_user_finished')
+	readonly = serializers.SerializerMethodField('is_readonly')
 	start = serializers.DateTimeField('')
 
 	def can_edit(self, object):
@@ -19,6 +20,9 @@ class TestSerializer(serializers.ModelSerializer):
 
 	def get_problem(self, object):
 		return object.problem_set.count()
+
+	def is_readonly(self, object):
+		return object.is_readonly()
 
 	def get_user_score(self, object):
 		if not self.context['request'].user.is_authenticated():
