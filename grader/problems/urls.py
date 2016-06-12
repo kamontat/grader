@@ -6,7 +6,7 @@ from .views import *
 router = routers.SimpleRouter(trailing_slash=False)
 router.register(r'test', TestViewSet, base_name='tests')
 
-test_router = routers.NestedSimpleRouter(router, r'test', lookup='test')
+test_router = routers.NestedSimpleRouter(router, r'test', lookup='test', trailing_slash=False)
 test_router.register(r'problems', ProblemViewSet, base_name='problems')
 
 urlpatterns = [

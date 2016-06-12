@@ -44,8 +44,12 @@ class Problem(models.Model):
 	name = models.CharField(max_length=255)
 	description = models.TextField(blank=True)
 	point = models.IntegerField(default=1)
-	creator = models.CharField(max_length=255, blank=True, default='')
-	graders = models.TextField(blank=True)
+	creator = models.CharField(max_length=255, blank=True, default='', help_text='Any text is OK')
+	graders = models.TextField(
+		blank=True, default='{"grader":{"time_limit":1,"memory_limit":64,"allowed":["java"]}}',
+		verbose_name='Grader configuration',
+		help_text='Allowed are list of file extensions, not language name. Must be valid JSON'
+	)
 
 	input_lang = models.CharField(max_length=10, null=True, blank=True,
 		verbose_name='Input generator language', choices=[
