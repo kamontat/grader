@@ -11,6 +11,15 @@
 			</div>
 		</div>
 		<ul class="selector list-unstyled">
+			<li class="scoreboardmenu" ng-if="user.user.admin" ui-sref="problem.scoreboard" ui-sref-active="active">
+				<div class="colorbar"></div>
+				<div class="contents">
+					<h4>
+						<a href="#" ui-sref="problem.scoreboard">Scoreboard</a>
+					</h4>
+				</div>
+				<div class="clear"></div>
+			</li>
 			<li ng-repeat="problem in problems" ng-class="{passed: problem.passed, notpassed: !problem.passed, invalid: problem.graders.invalid}" ui-sref="problem.problem({problem: problem.id})" ui-sref-active="active">
 				<div class="colorbar"></div>
 				<div class="contents">

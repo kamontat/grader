@@ -207,6 +207,16 @@ h1{
 	padding: 0;
 	overflow: hidden;
 }
+.problem .selector li.scoreboardmenu{
+	height: 48px;
+}
+.problem .selector li.scoreboardmenu .colorbar{
+	background: cornflowerblue;
+}
+.table-responsive{
+	width: 100%;
+	overflow: auto;
+}
 .problem .colorbar{
 	height: 64px;
 	width: 20px;
@@ -263,4 +273,17 @@ h1{
 	height: 400px;
 	margin-left: -16px;
 	margin-right: -16px;
+}
+
+.scoreboard a{
+	color: cornflowerblue;
+}
+.scoreboard .passed{
+	background-color: #d5ffaf !important;
+}
+.scoreboard .check{
+	color: #408000;
+}
+.scoreboard .nosubmit{
+	color: #bbb;
 }

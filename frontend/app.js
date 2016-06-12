@@ -1,5 +1,7 @@
 (function(){
 
+var server = '/server/';
+
 var app = angular.module('grader', ['ui.router', 'ui.ace', 'ngAnimate', 'ngSanitize', 'restangular']);
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
 	$stateProvider
@@ -18,6 +20,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 			templateUrl: 'templates/problem.html',
 			controller: 'Problems'
 		})
+		.state('problem.scoreboard', {
+			url: '/scoreboard',
+			templateUrl: 'templates/scoreboard.html',
+			controller: 'Scoreboard'
+		})
 		.state('problem.problem', {
 			url: '/:problem',
 			templateUrl: 'templates/show.html',
@@ -27,7 +34,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 }]);
 
 app.config(['RestangularProvider', function(provider){
-	provider.setBaseUrl('/server/');
+	provider.setBaseUrl(server);
 }]);
 
 app.service('User', ['Restangular', '$rootScope', function(Restangular, $rootScope){
@@ -197,7 +204,7 @@ app.controller('ShowProblem', ['Restangular', '$stateParams', '$scope', '$http',
 			$scope.prevSub = obj;
 
 			if($scope.loadOlder != loadedCode){
-				$http.get('/server/codeload/sub/' + $scope.loadOlder).then(function(src){
+				$http.get(server + 'codeload/sub/' + $scope.loadOlder).then(function(src){
 					$scope.source = src.data;
 				});
 				loadedCode = $scope.loadOlder;
@@ -230,6 +237,23 @@ app.controller('ShowProblem', ['Restangular', '$stateParams', '$scope', '$http',
 	});
 }]);
 
+app.controller('Scoreboard', ['$stateParams', '$scope', '$http', '$interval', 'languages', function(params, $scope, $http, $interval, languages){
+	$scope.languages = languages;
+
+	var loadScoreboard = function(){
+		$http.get(server + 'test/' + params.test + '/scoreboard').then(function(scoreboard){
+			$scope.scoreboard = scoreboard.data;
+		});
+	};
+	loadScoreboard();
+
+	var autorefresh = $interval(loadScoreboard, 15000);
+
+	$scope.$on('$destroy', function(){
+		$interval.cancel(autorefresh);
+	});
+}]);
+
 app.filter('markdown', ['$sce', function($sce){
 	var showdown = new Showdown.converter();
 	return function(text){
@@ -245,6 +269,28 @@ app.filter('state', function(){
 	return function(text){
 		return states[parseInt(text)];
 	};
+});
+
+app.filter('bytes', function() {
+	return function(bytes, precision) {
+			if (bytes==0 || isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
+			if (typeof precision === 'undefined') precision = 1;
+			var units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB'],
+					number = Math.floor(Math.log(bytes) / Math.log(1024));
+			return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) + units[number];
+	}
+});
+
+app.value("languages", {
+	'py': 'Python 2',
+	'py3': 'Python 3',
+	'php': 'PHP',
+	'rb': 'Ruby',
+	'js': 'JavaScript',
+	'java': 'Java',
+	'c': 'C',
+	'cpp': 'C++',
+	'cs': 'C#',
 });
 
 })();
