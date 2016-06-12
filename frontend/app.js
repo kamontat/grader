@@ -27,7 +27,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 }]);
 
 app.config(['RestangularProvider', function(provider){
-	provider.setBaseUrl('/server/');
+	provider.setBaseUrl('https://sosgrader.whs.in.th/server/');
 }]);
 
 app.service('User', ['Restangular', '$rootScope', function(Restangular, $rootScope){
