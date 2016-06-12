@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.shortcuts import redirect
+from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
@@ -57,6 +58,7 @@ class UserView(APIView):
 
 		return Response(UserSerializer(request.user).data)
 
+@csrf_exempt
 def api_logout(request):
 	logout(request)
 	return redirect(settings.FRONTEND_URL)
