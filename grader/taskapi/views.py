@@ -10,15 +10,15 @@ from submission.models import Result
 class TaskAPI(APIView):
 	def post(self, request):
 		if not settings.WORKER_SHARED_SECRET:
-			raise ImproperlyConfigured, 'WORKER_SHARED_SECRET is not configured'
+			raise ImproperlyConfigured('WORKER_SHARED_SECRET is not configured')
 
 		if settings.WORKER_SHARED_SECRET != request.data['key']:
-			raise AuthenticationFailed, 'Incorrect shared secret'
+			raise AuthenticationFailed('Incorrect shared secret')
 
 		try:
 			result = Result.objects.get(pk=request.data['result_id'])
 		except Result.DoesNotExist:
-			raise NotFound, 'Result not found'
+			raise NotFound('Result not found')
 
 		if request.data['correct']:
 			result.state = 2
