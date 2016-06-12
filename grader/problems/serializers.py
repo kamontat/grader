@@ -13,7 +13,6 @@ class TestSerializer(serializers.ModelSerializer):
 	score = serializers.SerializerMethodField('get_user_score')
 	finished = serializers.SerializerMethodField('get_user_finished')
 	readonly = serializers.SerializerMethodField('is_readonly')
-	start = serializers.DateTimeField('')
 
 	def can_edit(self, object):
 		return self.context['request'].user.has_perm('problems.change_test')

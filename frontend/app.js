@@ -176,7 +176,7 @@ app.controller('ShowProblem', ['Restangular', '$stateParams', '$scope', '$http',
 					$scope.loadProblem();
 				}
 
-				item.line = $interpolate("#{{sub.id}} at {{sub.created_at*1000|date:'medium'}} [{{sub.result}}]")({sub: item});
+				item.line = $interpolate("#{{sub.id}} at {{sub.created_at|date:'medium'}} [{{sub.result}}]")({sub: item});
 				if(item.correct){
 					item.line = "✔ " + item.line
 				}
