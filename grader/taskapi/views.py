@@ -1,6 +1,7 @@
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
 
+from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, AuthenticationFailed
@@ -8,6 +9,8 @@ from rest_framework.exceptions import NotFound, AuthenticationFailed
 from submission.models import Result
 
 class TaskAPI(APIView):
+	permission_classes = (AllowAny,)
+
 	def post(self, request):
 		if not settings.WORKER_SHARED_SECRET:
 			raise ImproperlyConfigured('WORKER_SHARED_SECRET is not configured')
