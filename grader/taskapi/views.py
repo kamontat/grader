@@ -23,7 +23,7 @@ class TaskAPI(APIView):
 		except Result.DoesNotExist:
 			raise NotFound('Result not found')
 
-		if request.data['correct']:
+		if 'correct' in request.data:
 			result.state = 2
 			result.correct = request.data['correct']
 			result.result = request.data['result']
