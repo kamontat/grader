@@ -13,7 +13,7 @@ def convert_yaml(apps, schema_editor):
         try:
             data = json.loads(problem.graders)
             data = data['grader']
-        except (ValueError, KeyError):
+        except (ValueError, KeyError, TypeError):
             data = {}
         problem.graders = yaml.dump(data, default_flow_style=False)
         problem.save()
