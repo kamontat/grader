@@ -27,7 +27,7 @@ class ProblemAdmin(admin.ModelAdmin):
 		'input_lang', 'has_input', 'output_lang', 'has_output'
 	)
 	list_display_links = ('id', 'name')
-	list_filter = ('test', 'point', 'creator', 'input_lang', 'output_lang')
+	list_filter = ('test', 'input_lang', 'output_lang', 'point')
 	search_fields = ('name',)
 
 	fieldsets = (

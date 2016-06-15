@@ -112,4 +112,4 @@ class Problem(models.Model):
 			})
 
 	class Meta:
-		ordering = ['name']
+		ordering = ['test', 'name']
