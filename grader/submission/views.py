@@ -42,7 +42,7 @@ class Submit(APIView):
 			raise ProblemNotReady
 
 		try:
-			if request.data['lang'] not in config['grader']['allowed']:
+			if request.data['lang'] not in config['allowed']:
 				raise ValidationError('Language is not allowed for submission')
 		except KeyError:
 			raise ProblemNotReady
