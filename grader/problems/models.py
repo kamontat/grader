@@ -106,9 +106,17 @@ class Problem(models.Model):
 			raise ValidationError({
 				'input_lang': 'Required if {} is present'.format(self._meta.get_field('input').verbose_name)
 			})
+		if self.input_lang and not self.input:
+			raise ValidationError({
+				'input': 'Required if {} is present'.format(self._meta.get_field('input_lang').verbose_name)
+			})
 		if self.output and not self.output_lang:
 			raise ValidationError({
 				'output_lang': 'Required if {} is present'.format(self._meta.get_field('output').verbose_name)
+			})
+		if self.output_lang and not self.output:
+			raise ValidationError({
+				'output': 'Required if {} is present'.format(self._meta.get_field('output_lang').verbose_name)
 			})
 
 	class Meta:
