@@ -1,4 +1,4 @@
-import json
+import yaml
 
 from django.db import models
 from django.utils import timezone
@@ -53,7 +53,7 @@ class Problem(models.Model):
 	point = models.IntegerField(default=1)
 	creator = models.CharField(max_length=255, blank=True, default='', help_text='Any text is OK')
 	graders = models.TextField(
-		blank=True, default='{"grader":{"time_limit":1,"memory_limit":64,"allowed":["java"]}}',
+		blank=True, default='time_limit: 1\nmemory_limit: 64\nallowed:\n  - java',
 		verbose_name='Grader configuration',
 		help_text='Allowed are list of file extensions, not language name. Must be valid JSON'
 	)
@@ -86,8 +86,8 @@ class Problem(models.Model):
 
 	def get_graders(self):
 		try:
-			data = json.loads(self.graders)
-		except json.decoder.JSONDecodeError:
+			data = yaml.safe_load(self.graders)
+		except yaml.YAMLError:
 			data = {}
 
 		if type(data) != dict:

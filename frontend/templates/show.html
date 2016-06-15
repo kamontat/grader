@@ -7,11 +7,11 @@
 		<h4>Submission</h4>
 		<dl class="dl-horizontal">
 			<dt>Time limit</dt>
-			<dd>{{problem.graders.grader.time_limit}} seconds</dd>
+			<dd>{{problem.graders.time_limit}} seconds</dd>
 			<dt>Memory limit</dt>
-			<dd>{{problem.graders.grader.memory_limit}}MB</dd>
+			<dd>{{problem.graders.memory_limit}}MB</dd>
 		</dl>
-		
+
 		<div class="row" ng-if="submissions">
 			<div class="form-group col-md-4">
 				<label for="loadOlder">
@@ -31,12 +31,12 @@
 				<pre ng-if="prevSub.error">{{prevSub.error}}</pre>
 			</div>
 		</div>
-		
+
 		<form ng-submit="submit()">
 			<div class="form-group">
 				<div ng-model="source" ui-ace="{theme: 'cloud9_night', mode: 'java'}" readonly="{{test.readonly}}"></div>
 			</div>
-		
+
 			<p ng-if="!test.readonly">
 				<input type="submit" class="btn btn-primary btn-lg" ng-disabled="noSubmit">
 			</p>

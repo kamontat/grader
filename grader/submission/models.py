@@ -61,7 +61,7 @@ class Result(models.Model):
 			},
 			'limits': {
 				'mem': config.get('memory_limit', None),
-				'mem': config.get('memory_limit', None),
+				'time': config.get('time_limit', None),
 			}
 		}
 
