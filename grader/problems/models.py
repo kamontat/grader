@@ -3,6 +3,8 @@ import json
 from django.db import models
 from django.utils import timezone
 
+from .storage import *
+
 class Test(models.Model):
 	name = models.CharField(max_length=255)
 	mode = models.CharField(max_length=15, default='practice', choices=[
@@ -38,6 +40,10 @@ class Test(models.Model):
 	class Meta:
 		ordering = ['name']
 
+def input_filename(instance, filename):
+	return 'input/{}'.format(instance.id)
+def output_filename(instance, filename):
+	return 'output/{}'.format(instance.id)
 
 class Problem(models.Model):
 	test = models.ForeignKey(Test)
@@ -57,7 +63,7 @@ class Problem(models.Model):
 			('java', 'Java'),
 			('php', 'PHP'),
 		])
-	input = models.FileField(upload_to='input', null=True, blank=True, verbose_name='Input generator source')
+	input = models.FileField(upload_to=input_filename, null=True, blank=True, verbose_name='Input generator source', storage=CodeloadFileSystemStorage('input'))
 
 	output_lang = models.CharField(max_length=10, null=True, blank=True,
 		verbose_name='Solution language', choices=[
@@ -71,7 +77,7 @@ class Problem(models.Model):
 			('py3', 'Python 3'),
 			('rb', 'Ruby'),
 		])
-	output = models.FileField(upload_to='output', null=True, blank=True, verbose_name='Solution')
+	output = models.FileField(upload_to=output_filename, null=True, blank=True, verbose_name='Solution', storage=CodeloadFileSystemStorage('output'))
 
 	comparator = models.CharField(max_length=10, default="hash", choices=[
 		('hash', 'Grader'),
