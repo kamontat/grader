@@ -2,6 +2,7 @@ import json
 
 from django.db import models
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 from .storage import *
 
@@ -99,6 +100,16 @@ class Problem(models.Model):
 
 	def __str__(self):
 		return self.name
+
+	def clean(self):
+		if self.input and not self.input_lang:
+			raise ValidationError({
+				'input_lang': 'Required if {} is present'.format(self._meta.get_field('input').verbose_name)
+			})
+		if self.output and not self.output_lang:
+			raise ValidationError({
+				'output_lang': 'Required if {} is present'.format(self._meta.get_field('output').verbose_name)
+			})
 
 	class Meta:
 		ordering = ['name']
