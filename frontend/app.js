@@ -15,6 +15,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 			templateUrl: 'templates/tests.html',
 			controller: 'Tests'
 		})
+		.state('queue', {
+			url: '/queue',
+			templateUrl: 'templates/queue.html',
+			controller: 'ShowQueue'
+		})
 		.state('problem', {
 			url: '/:test',
 			templateUrl: 'templates/problem.html',
@@ -248,6 +253,23 @@ app.controller('Scoreboard', ['$stateParams', '$scope', '$http', '$interval', 'l
 	loadScoreboard();
 
 	var autorefresh = $interval(loadScoreboard, 15000);
+
+	$scope.$on('$destroy', function(){
+		$interval.cancel(autorefresh);
+	});
+}]);
+
+app.controller('ShowQueue', ['$scope', '$http', '$interval', function($scope, $http, $interval){
+	var loadQueue = function(){
+		$http.get(server + 'queue/').then(function(queue){
+			$scope.queue = queue.data;
+		}, function(queue){
+			$scope.queue = queue.data;
+		});
+	};
+	loadQueue();
+
+	var autorefresh = $interval(loadQueue, 2000);
 
 	$scope.$on('$destroy', function(){
 		$interval.cancel(autorefresh);

@@ -18,6 +18,14 @@
 					<span ng-if="test.end">&#8212; ends {{test.end|date:'short'}}</span>
 				</div>
 			</li>
+			<li ng-if="user.user.admin" ui-sref="queue()">
+				<h4>Queue status</h4>
+			</li>
+			<li ng-if="user.user.admin">
+				<a href="/server/admin/">
+					<h4>Admin</h4>
+				</a>
+			</li>
 		</ul>
 	</div>
 </div>

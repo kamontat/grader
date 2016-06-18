@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'submission',
     'codeload',
     'taskapi',
+    'queuestats',
 ]
 
 MIDDLEWARE_CLASSES = [

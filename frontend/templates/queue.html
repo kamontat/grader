@@ -1,0 +1,89 @@
+<div class="problem row">
+	<div class="col-md-3 col-xs-3">
+		<div class="header shadow-1">
+			<div class="container">
+				<h3>
+					<a ui-sref="tests()" href="#" class="btn btn-link">
+						<i class="glyphicon glyphicon-arrow-left"></i>
+					</a>
+					Grader queue status
+				</h3>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9 col-xs-9">
+		<div class="header shadow-1">
+			<div class="pull-right username">
+				Logged in as {{user.user.user}}
+				<form action="/server/logout" method="POST" class="logoutfrm"><button type="submit" class="btn-link">Logout</button></form>
+			</div>
+		</div>
+		<div class="scroll">
+			<div class="card">
+				<div class="alert alert-danger" ng-if="queue.detail">{{queue.detail}}</div>
+				<div class="row" ng-if="queue.stats">
+					<div class="col-sm-6">
+						<h3>Tube stats</h3>
+						<p>Updated every 2 seconds</p>
+						<dl class="dl-horizontal">
+							<dt>Tube name</dt>
+							<dd>{{queue.tube_stats.name}}</dd>
+
+							<dt>Idle graders</dt>
+							<dd>
+								{{queue.tube_stats['current-waiting']|number}}/{{queue.tube_stats['current-watching']|number}}
+
+								<div class="progress">
+										<div class="progress-bar" role="progressbar" style="width: {{(queue.tube_stats['current-waiting']/queue.tube_stats['current-watching'])*100}}%;">
+										<span>{{(queue.tube_stats['current-waiting']/queue.tube_stats['current-watching'])*100|number}}%</span>
+									</div>
+								</div>
+							</dd>
+						</dl>
+						<h4>Jobs</h4>
+						<table class="table table-bordered">
+							<thead>
+								<tr><th>In Queue</th><th>Grading</th><th>Delayed</th><th>Total</th></tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>{{queue.tube_stats['current-jobs-ready']|number}}</td>
+									<td>{{queue.tube_stats['current-jobs-reserved']|number}}</td>
+									<td>{{queue.tube_stats['current-jobs-delayed']|number}}</td>
+									<td>{{queue.tube_stats['total-jobs']|number}}</td>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-sm-6">
+						<h3>Server stats</h3>
+						<dl class="dl-horizontal">
+							<dt>Hostname</dt>
+							<dd>{{queue.stats.hostname}}</dd>
+
+							<dt>Version</dt>
+							<dd>{{queue.stats.version}}</dd>
+
+							<dt>Uptime</dt>
+							<dd>{{queue.stats.uptime|number}} seconds</dd>
+
+							<dt>Tubes</dt>
+							<dd>{{queue.stats['current-tubes']|number}}</dd>
+
+							<dt>Current Connections</dt>
+							<dd>{{queue.stats['current-connections']|number}}/{{queue.stats['total-connections']|number}}</dd>
+
+							<dt>Alive Workers</dt>
+							<dd>{{queue.stats['current-workers']|number}}</dd>
+
+							<dt>Jobs timed out</dt>
+							<dd>{{queue.stats['job-timeouts']|number}}</dd>
+
+							<dt>Total jobs processed</dt>
+							<dd>{{queue.stats['total-jobs']|number}}</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

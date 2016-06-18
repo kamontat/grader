@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'server/', include('submission.urls')),
     url(r'server/codeload/', include('codeload.urls')),
     url(r'server/', include('taskapi.urls')),
+    url(r'server/queue/', include('queuestats.urls')),
 ]
