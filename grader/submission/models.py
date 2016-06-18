@@ -66,5 +66,4 @@ class Result(models.Model):
 		}
 
 	def create_job(self):
-		beanstalk.use('grader')
 		beanstalk.put(json.dumps(self.create_job_data()))
