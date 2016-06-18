@@ -158,6 +158,13 @@ h1{
 	color: #878787;
 	font-size: 10pt;
 }
+.selector .adminmenu{
+	background: #666;
+	color: white;
+}
+.selector .adminmenu a{
+	color: white;
+}
 /*.selector .ng-enter{
 	transition: all ease-out 500ms;
 	margin-left: -100%;
