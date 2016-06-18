@@ -15,13 +15,13 @@ class Command(BaseCommand):
 		for id, input, output in cursor:
 			problem = Problem.objects.get(pk=id)
 			if input and problem.input_lang:
-				open('/tmp/migrate-tmp', 'w').write(input)
+				open('/tmp/migrate-tmp', 'wb').write(input)
 				fp = File(open('/tmp/migrate-tmp', 'r'))
 				problem.input.save('input.{}'.format(problem.input_lang), fp, save=False)
 				print('[{}] updated input {}'.format(problem.id, problem.input_lang))
 
 			if output and problem.output_lang:
-				open('/tmp/migrate-tmp', 'w').write(output)
+				open('/tmp/migrate-tmp', 'wb').write(output)
 				fp = File(open('/tmp/migrate-tmp', 'r'))
 				problem.output.save('output.{}'.format(problem.output_lang), fp, save=False)
 				print('[{}] updated output {}'.format(problem.id, problem.output_lang))
