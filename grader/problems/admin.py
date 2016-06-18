@@ -18,7 +18,7 @@ class TestAdmin(admin.ModelAdmin):
 	problem_count.short_description = 'Problems'
 
 	def view_on_site(self, obj):
-		return '{}#/{}/'.format(settings.FRONTEND_URL, obj.id)
+		return '{}#/{}'.format(settings.FRONTEND_URL, obj.id)
 
 @admin.register(Problem)
 class ProblemAdmin(admin.ModelAdmin):
@@ -55,4 +55,4 @@ class ProblemAdmin(admin.ModelAdmin):
 	has_output.boolean = True
 
 	def view_on_site(self, obj):
-		return '{}#/{}/{}/'.format(settings.FRONTEND_URL, obj.test.id, obj.id)
+		return '{}#/{}/{}'.format(settings.FRONTEND_URL, obj.test.id, obj.id)
