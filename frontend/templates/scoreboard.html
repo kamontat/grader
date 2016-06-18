@@ -1,5 +1,8 @@
 <div class="card">
 	<div class="table-responsive">
+		<p>
+			<a class="btn btn-default" href="/server/admin/problems/test/{{test.id}}/change/" ng-if="user.user.admin" target="_blank">Edit test</a>
+		</p>
 		<table class="table table-bordered table-striped scoreboard">
 			<thead>
 				<tr><th>Name</th><th>Score</th><th ng-repeat="problem in problems">{{problem.name}} ({{problem.point}})</th></tr>

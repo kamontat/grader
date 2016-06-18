@@ -1,4 +1,5 @@
 <div class="card">
+	<a class="btn btn-sm btn-default pull-right" href="/server/admin/problems/problem/{{problem.id}}/change/" ng-if="user.user.admin" target="_blank"><i class="glyphicon glyphicon-edit"></i></a>
 	<h2>{{problem.name}}</h2>
 	<small class="credit">by {{problem.creator}}</small>
 	<div ng-bind-html="problem.description|markdown"></div>
