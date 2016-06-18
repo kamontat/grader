@@ -50,7 +50,7 @@ def output_filename(instance, filename):
 class Problem(models.Model):
 	test = models.ForeignKey(Test)
 	name = models.CharField(max_length=255)
-	description = models.TextField(blank=True)
+	description = models.TextField(blank=True, help_text='<a href="http://commonmark.org/help/">Markdown</a> and full HTML allowed')
 	point = models.IntegerField(default=1)
 	creator = models.CharField(max_length=255, blank=True, default='', help_text='Any text is OK')
 	graders = models.TextField(

@@ -13,7 +13,6 @@ class CodeloadFileSystemStorage(FileSystemStorage):
 
 	def url(self, name):
 		instance = self.get_instance(name)
-		print(instance)
 		return reverse('load_{}'.format(self._type), args=[instance.id])
 
 	def get_instance(self, name):
