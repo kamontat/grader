@@ -1,0 +1,17 @@
+{
+  "name": "graderclient",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "dependencies": {
+    "concat-stream": "^1.5.1",
+    "dockerode": "^2.2.10",
+    "dockerode-promise": "^0.1.0",
+    "fivebeans": "^1.4.1",
+    "js-yaml": "^3.6.1",
+    "tar-stream": "^1.5.2",
+    "winston": "^2.2.0",
+    "yargs": "^4.7.1"
+  }
+}
