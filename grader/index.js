@@ -98,22 +98,26 @@ let getJob = () => {
 			json: {
 				key: argv.s,
 			}
-		}, () => {});
+		}, (err, resp, body) => {
+			winston.debug(`Notify server ${resp.statusCode}: ${body}`);
+		});
 
 		let job = new Job(jobDetail, docker, client, jobId)
 		job.autoExtend();
 		job.grade().then((result) => {
 			let errors = job.collectedErrors.join('\n');
 			let correct = result.filter((item) => item != 'P').length === 0;
+			result = result.join('');
 
 			request.post(argv.server, {
 				json: {
 					key: argv.s,
 					correct,
-					result: result.join(''),
+					result: result,
 					error: errors,
 				}
-			}, () => {
+			}, (err, resp, body) => {
+				winston.info(`Submitted job to server ${result}`);
 				client.destroy(jobId, () => {});
 				getJob();
 			});
@@ -125,7 +129,8 @@ let getJob = () => {
 					result: 'E',
 					error: 'Internal grader error',
 				}
-			}, () => {
+			}, (err, resp, body) => {
+				winston.info(`Submitted error job to server`);
 				client.bury(jobId, 0, () => {});
 				getJob();
 			});
