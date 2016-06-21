@@ -16,7 +16,7 @@ class Job {
 
 		this.extendInterval = 10000;
 		this.inputTimeout = 1000;
-		this.compileTimeout = 10000;
+		this.compileTimeout = 30000;
 	}
 
 	autoExtend(){
