@@ -2,6 +2,7 @@ let yargs = require('yargs');
 let Docker = require('dockerode-promise');
 let fivebeans = require('fivebeans');
 let winston = require('winston');
+let request = require('request');
 let Job = require('./job');
 
 let argv = yargs.env('GRADER')
@@ -89,9 +90,43 @@ let getJob = () => {
 			winston.error('Job error', err);
 			return;
 		}
-		let job = JSON.parse(payload.toString('utf8'));
-		winston.info(`Got job ${job.result_id}`);
-		winston.debug(job);
-		new Job(job, client, jobId);
+		let jobDetail = JSON.parse(payload.toString('utf8'));
+		winston.info(`Got job ${jobDetail.result_id}`);
+		winston.debug(jobDetail);
+
+		request.post(argv.server, {
+			json: {
+				key: argv.s,
+			}
+		});
+
+		let job = new Job(jobDetail, docker, client, jobId)
+		job.autoExtend();
+		job.grade().then((result) => {
+			let errors = job.collectedErrors.join('\n');
+			let correct = result.filter((item) => item != 'P').length === 0;
+
+			request.post(argv.server, {
+				json: {
+					key: argv.s,
+					correct,
+					result: result.join(''),
+					error: errors,
+				}
+			}, () => {
+				client.destroy(jobId, () => {});
+			});
+		}, (err) => {
+			winston.error(err);
+			request.post(argv.server, {
+				json: {
+					key: argv.s,
+					result: 'E',
+					error: 'Internal grader error',
+				}
+			}, () => {
+				client.bury(jobId, 0, () => {});
+			});
+		});
 	});
 }

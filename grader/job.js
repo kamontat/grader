@@ -6,7 +6,6 @@ let Container = require('./container');
 let settingsCache = {}
 
 class Job {
-
 	constructor(data, docker, beanstalk, id){
 		this.docker = docker;
 		this.beanstalk = beanstalk;
@@ -83,6 +82,9 @@ class Job {
 	grade(){
 		let cleanup = (res) => {
 			this.cleanup();
+			if(this._timer){
+				clearInterval(this._timer);
+			}
 			return res;
 		};
 
