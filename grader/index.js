@@ -115,6 +115,7 @@ let getJob = () => {
 				}
 			}, () => {
 				client.destroy(jobId, () => {});
+				getJob();
 			});
 		}, (err) => {
 			winston.error(err);
@@ -126,6 +127,7 @@ let getJob = () => {
 				}
 			}, () => {
 				client.bury(jobId, 0, () => {});
+				getJob();
 			});
 		});
 	});
