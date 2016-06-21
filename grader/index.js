@@ -97,6 +97,7 @@ let getJob = () => {
 		request.post(argv.server, {
 			json: {
 				key: argv.s,
+				result_id: jobDetail.result_id,
 			}
 		}, (err, resp, body) => {
 			winston.debug(`Notify server ${resp.statusCode}: ${body}`);
@@ -112,6 +113,7 @@ let getJob = () => {
 			request.post(argv.server, {
 				json: {
 					key: argv.s,
+					result_id: jobDetail.result_id,
 					correct,
 					result: result,
 					error: errors,
@@ -126,6 +128,7 @@ let getJob = () => {
 			request.post(argv.server, {
 				json: {
 					key: argv.s,
+					result_id: jobDetail.result_id,
 					result: 'E',
 					error: 'Internal grader error',
 				}
