@@ -123,7 +123,7 @@ class Job {
 		}).then((result) => {
 			winston.debug(`submission:\n${result[0]}`);
 			// this.collectedErrors.push(result[1]);
-			if(result[0] === expected){
+			if(result[0].trim() === expected.trim()){
 				thisResult = 'P';
 			}else if(result[0].replace(/\s/g, '') === expected.replace(/\s/g, '')){
 				thisResult = 'S';
