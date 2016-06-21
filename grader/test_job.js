@@ -11,23 +11,22 @@ let job = new Job({
 	input: {
 		lang: 'py',
 		code: `def run():
-	yield 44
-	yield 'echo'`,
+	for i in range(2):d
+		yield 'echo'`,
 	},
 	output: {
-		lang: 'java',
-		code: `import java.util.Scanner
-public class CustomName {
-	public static void main(String[] args){
-		Scanner scan = new Scanner(System.in);
-		System.out.println(scan.nextLine());
-	}
-}`
+		lang: 'py3',
+		code: `print(input())`,
 	},
 	submission: {
-		lang: 'py3',
-		code: `while True:
-	print(input())`
+		lang: 'java',
+		code: `import java.util.Scanner;
+public class CustomName {
+	public static void main(String[] args){
+		Scanner scan = new Scanner(System.in)
+		System.out.println(scan.nextLine());
+	}
+}`,
 	},
 	limits: {
 		time: 1,
@@ -35,4 +34,7 @@ public class CustomName {
 	}
 }, docker);
 
-job.grade().then(console.log).catch(console.error);
+job.grade().then((result) => {
+	console.log(result);
+	console.log(job.collectedErrors);
+}).catch(console.error);

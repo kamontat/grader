@@ -9,3 +9,9 @@ input:
     cmd:
     - /usr/local/bin/python3
     - /grader/helper.py
+
+image: python:3-alpine
+input_file: input.py
+cmd:
+- /usr/local/bin/python3
+- /grader/input.py
