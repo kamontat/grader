@@ -98,7 +98,7 @@ let getJob = () => {
 			json: {
 				key: argv.s,
 			}
-		});
+		}, () => {});
 
 		let job = new Job(jobDetail, docker, client, jobId)
 		job.autoExtend();
