@@ -1,5 +1,5 @@
 image: java:jdk
-input_file_regex: "public class ([^.{(\[ ]+)"
+input_file_regex: "public class ([^ 	\\{\\(\\[\\.\\$]+)"
 input_file_regex_format: $1.java
 run_file_regex_format: $1
 compile:
