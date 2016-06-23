@@ -4,9 +4,13 @@ input_file_regex_format: $1.java
 run_file_regex_format: $1
 compile:
 - /usr/bin/javac
+- -encoding
+- UTF8
 - /grader/$1.java
 cmd:
 - /usr/bin/java
+- -encoding
+- UTF8
 - -cp
 - /grader/
 - $1
