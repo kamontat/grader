@@ -9,8 +9,6 @@ compile:
 - /grader/$1.java
 cmd:
 - /usr/bin/java
-- -encoding
-- UTF8
 - -cp
 - /grader/
 - $1
