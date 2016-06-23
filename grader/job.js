@@ -222,7 +222,7 @@ class Job {
 							VolumesFrom: [`${oldContainerId}:ro`],
 						});
 					}, (res) => {
-						winston.error(`Compile error: ${res[1]}`);
+						winston.error('Compile error', res);
 						this.collectedErrors.push(res[1]);
 						return Promise.reject(res);
 					});
