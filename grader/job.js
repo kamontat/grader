@@ -185,7 +185,7 @@ class Job {
 			promise = container.create({
 				Image: settings.image,
 				Cmd: cmd,
-				memLimit: this.data.limits.mem || 64,
+				memLimit: (settings.compile ? this.data.limits.compileMem : this.data.limits.mem) || 64,
 				OpenStdin: true,
 				AttachStdin: true,
 				User: settings.compile ? '0': '1000',
@@ -222,7 +222,7 @@ class Job {
 							VolumesFrom: [`${oldContainerId}:ro`],
 						});
 					}, (res) => {
-						winston.error(`Compile error: ${res[1]}`);
+						winston.error('Compile error', res);
 						this.collectedErrors.push(res[1]);
 						return Promise.reject(res);
 					});

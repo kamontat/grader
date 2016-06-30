@@ -11,7 +11,7 @@ let job = new Job({
 	input: {
 		lang: 'py',
 		code: `def run():
-	for i in range(2):d
+	for i in range(2):
 		yield 'echo'`,
 	},
 	output: {
