@@ -23,7 +23,7 @@ schema = {
 		'type': 'list',
 		'schema': {
 			'type': 'string',
-			'regex': r'^(c|cpp|cs|java|js|php|py|py3|rb)$'
+			'regex': r'^(java|py|py3)$'
 		}
 	},
 }

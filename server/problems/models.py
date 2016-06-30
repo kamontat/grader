@@ -63,22 +63,15 @@ class Problem(models.Model):
 	input_lang = models.CharField(max_length=10, null=True, blank=True,
 		verbose_name='Input generator language', choices=[
 			('py', 'Python 2'),
-			('java', 'Java'),
-			('php', 'PHP'),
+			('py3', 'Python 3'),
 		])
 	input = models.FileField(upload_to=input_filename, null=True, blank=True, verbose_name='Input generator source', storage=CodeloadFileSystemStorage('input'))
 
 	output_lang = models.CharField(max_length=10, null=True, blank=True,
 		verbose_name='Solution language', choices=[
-			('c', 'C'),
-			('cpp', 'C++'),
-			('cs', 'C#'),
 			('java', 'Java'),
-			('js', 'JavaScript'),
-			('php', 'PHP'),
 			('py', 'Python'),
 			('py3', 'Python 3'),
-			('rb', 'Ruby'),
 		])
 	output = models.FileField(upload_to=output_filename, null=True, blank=True, verbose_name='Solution', storage=CodeloadFileSystemStorage('output'))
 
