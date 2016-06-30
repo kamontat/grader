@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'codeload',
     'taskapi',
     'queuestats',
+    'frontend',
 ]
 
 MIDDLEWARE_CLASSES = [
