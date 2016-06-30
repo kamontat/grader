@@ -1,0 +1,3 @@
+#!/bin/sh
+cd /grader
+python3 manage.py migrate
