@@ -1,4 +1,4 @@
-FROM django:1.9.7-python3
+FROM django:1.9-python3
 ADD https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.3/s6-overlay-amd64.tar.gz /tmp/
 ENTRYPOINT ["/init"]
 EXPOSE 80
