@@ -1,15 +1,19 @@
 FROM django:1.9.7-python3
-MAINTAINER Manatsawin Hanmongkolchai <manatsawin@gmail.com>
 ADD https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.3/s6-overlay-amd64.tar.gz /tmp/
 ENTRYPOINT ["/init"]
-COPY . /grader
+EXPOSE 80
 RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / && \
-	rm /tmp/s6-overlay-amd64.tar.gz && \
-	cd /grader/docker && apk add --no-cache pwgen && \
-	tar -c * | tar -C /etc -x && cd /grader && rm -r /grader/docker/ && \
+	rm /tmp/s6-overlay-amd64.tar.gz
+RUN apt-get update && apt-get install -y pwgen nginx-light libffi-dev && \
+	rm -rf /var/lib/apt/lists/* && \
+	rm /var/www/htdocs/* || true
+RUN pip3 install gunicorn dj_database_url && \
+	useradd -d /grader -MN -s /bin/false grader && \
+	mkdir -p /data/media && chown -R grader /data
+
+COPY . /grader
+
+RUN cd /grader/docker && tar -c * | tar -C /etc -x && cd /grader && rm -r /grader/docker/ && \
 	pip3 install -r requirements.txt && \
-	pip3 install gunicorn dj_database_url && \
-	adduser -D -s /sbin/nologin -h /grader grader && \
-	mkdir -p /data/media && chown -R grader /data && \
-	echo "STATIC_ROOT = '/var/www/localhost/htdocs/'" > /grader/grader/local_settings.py && \
+	echo "STATIC_ROOT = '/var/www/htdocs/'" > /grader/grader/local_settings.py && \
 	python3 manage.py collectstatic -l --no-input

@@ -1,3 +1,9 @@
-#!/bin/sh
+#!/usr/bin/with-contenv bash
 cd /grader
-python3 manage.py migrate
+s6-setuidgid grader /usr/local/bin/python3 manage.py migrate
+
+if [ ! -z "$ADMIN_PASSWORD" ]; then
+	USERNAME=${ADMIN_USERNAME:-admin}
+	echo Attempting to create superuser
+	echo "from django.contrib.auth.models import User; User.objects.create_superuser('$USERNAME', '$ADMIN_EMAIL', '$ADMIN_PASSWORD')" | python manage.py shell
+fi

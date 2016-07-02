@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/usr/bin/with-contenv bash
 
 usage(){
 	echo "SECRET=... environment variable MUST be set"
@@ -10,20 +10,15 @@ if [ -z "$SECRET" ]; then
 	exit 1
 fi
 
-if [ -z "$SECRET_KEY" ]; then
-	SECRET_KEY=`pwgen -s 64 1`
-fi
-if [ -z "$DATABASE_URL" ]; then
-	DATABASE_URL="sqlite:///data/db.sqlite"
-fi
+SECRET_KEY=${SECRET_KEY:-`pwgen -s 64 1`}
+DATABASE_URL=${DATABASE_URL:-sqlite:////data/db.sqlite}
+BEANSTALK=${BEANSTALK:-127.0.0.1}
+BEANSTALK_PORT=${BEANSTALK_PORT:-11300}
 if [ -z "$ALLOWED_HOST" ]; then
 	ALLOWED_HOST="localhost"
-fi
-if [ -z "$BEANSTALK" ]; then
-	BEANSTALK="127.0.0.1"
-fi
-if [ -z "$BEANSTALK_PORT" ]; then
-	BEANSTALK_PORT=11300
+	DEBUG=True
+else
+	DEBUG=False
 fi
 if [ "$REGISTER_ALLOWED" != "false" ]; then
 	REGISTER_ALLOWED=True
@@ -34,14 +29,14 @@ fi
 cat << EOF > /grader/grader/local_settings.py
 import dj_database_url
 
-DEBUG = False
-DATABASES['default'] = dj_database_url.parse(default="$DATABASE_URL")
+DEBUG = $DEBUG
+DATABASES = {'default': dj_database_url.parse("$DATABASE_URL")}
 SECRET_KEY = "$SECRET_KEY"
 ALLOWED_HOSTS = ["$ALLOWED_HOST"]
 WORKER_SHARED_SECRET = "$SECRET"
 BEANSTALK = ("$BEANSTALK", $BEANSTALK_PORT)
 REGISTER_ALLOWED = $REGISTER_ALLOWED
 STATIC_URL = '/'
-STATIC_ROOT = '/var/www/localhost/htdocs/'
+STATIC_ROOT = '/var/www/htdocs/'
 MEDIA_ROOT = '/data/media/'
 EOF
