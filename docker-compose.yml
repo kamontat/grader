@@ -1,0 +1,50 @@
+version: '2'
+services:
+  mysql:
+    image: mariadb
+    restart: always
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: grader
+      MYSQL_ROOT_PASSWORD: $MYSQL_PASSWORD
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_general_ci
+  beanstalkd:
+    image: schickling/beanstalkd
+    restart: always
+  web:
+    image: willwill/grader
+    restart: always
+    depends_on:
+      - mysql
+      - beanstalkd
+    volumes:
+      - web-data:/data
+    ports:
+      - "8080:80"
+    environment:
+      SECRET: $GRADER_SECRET
+      DATABASE_URL: mysql://root:$MYSQL_PASSWORD@mysql/grader
+      ALLOWED_HOST: $ALLOWED_HOST
+      BEANSTALK: beanstalkd
+      ADMIN_USERNAME: $ADMIN_USERNAME
+      ADMIN_PASSWORD: $ADMIN_PASSWORD
+      ADMIN_EMAIL: $ADMIN_EMAIL
+  runner:
+    image: willwill/grader-runner
+    depends_on:
+      - beanstalkd
+    environment:
+      GRADER_SECRET: $GRADER_SECRET
+      GRADER_BEANSTALK: beanstalkd:11300
+      GRADER_VERBOSE: $GRADER_VERBOSE
+      GRADER_SERVER: http://web/server/result
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    privileged: true
+    restart: always
+volumes:
+  mysql-data: {}
+  web-data: {}
