@@ -8,7 +8,7 @@ A complete rewrite of the old SOS Camp 3 grader with Python 2/3 Java support.
 
 The easiest way to setup is to use Docker Compose file.
 
-```
+```sh
 sudo MYSQL_PASSWORD=hackme GRADER_SECRET=hackme \
      ADMIN_USERNAME=admin ADMIN_PASSWORD=hackme \
      GRADER_VERBOSE=true \
@@ -20,7 +20,13 @@ Other available variables:
 - ADMIN_EMAIL
 - ALLOWED_HOST
 
-TODO: Make sure mariadb started before starting grader
+To make initial grading fast, you may want to download the images used:
+
+``` sh
+for i in java:jdk python:3-alpine python:2-alpine; do
+sudo docker pull $i
+done
+```
 
 ## Components
 
