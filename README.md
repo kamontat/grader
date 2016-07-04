@@ -28,6 +28,12 @@ sudo docker pull $i
 done
 ```
 
+After the grader started, go to http://localhost:8080/frontend/ to get started.
+The admin page is available at http://localhost:8080/server/admin/ .
+
+If you haven't noticed, the admin username is `admin` and password is `hackme`
+unless you changed the environment variables to docker-compose.
+
 ## Components
 
 This grader composes of 3 components:
