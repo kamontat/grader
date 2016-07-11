@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.staticfiles.templatetags.staticfiles import static
 
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
@@ -61,4 +62,4 @@ class UserView(APIView):
 @csrf_exempt
 def api_logout(request):
 	logout(request)
-	return redirect(settings.FRONTEND_URL)
+	return redirect(static('frontend/index.html'))
