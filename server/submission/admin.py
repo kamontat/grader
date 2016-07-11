@@ -16,7 +16,7 @@ class ResultAdmin(admin.ModelAdmin):
 	_model = None
 
 	def get_readonly_fields(self, request, obj):
-		allowed = ('count_stats')
+		allowed = ('count_stats',)
 		return [f.name for f in Result._meta.get_fields() if f.name not in allowed]
 
 	def rerun(self, request, queryset):
