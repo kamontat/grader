@@ -1,4 +1,4 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from .models import *
 
 @admin.register(Result)
@@ -22,6 +22,9 @@ class ResultAdmin(admin.ModelAdmin):
 	def rerun(self, request, queryset):
 		for item in queryset:
 			item.create_job()
+		queryset.update(state=0)
+		messages.add_message(request, messages.SUCCESS, '{} items sent to task queue'.format(len(queryset)))
+
 	rerun.short_description = 'Restart selected job'
 
 	actions = [rerun]
