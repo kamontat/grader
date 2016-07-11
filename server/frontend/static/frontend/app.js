@@ -144,7 +144,7 @@ app.controller('Tests', ['Restangular', '$scope', function(Restangular, $scope){
 	Restangular.all('test').getList().then(function(data){
 		$scope.tests = data.map(function(item){
 			if(item.end){
-				item.end = new Date(item.end * 1000);
+				item.end = new Date(item.end);
 			}
 			return item;
 		});
