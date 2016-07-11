@@ -32,6 +32,7 @@ services:
       ADMIN_USERNAME: $ADMIN_USERNAME
       ADMIN_PASSWORD: $ADMIN_PASSWORD
       ADMIN_EMAIL: $ADMIN_EMAIL
+      WAIT_FOR_IT: mysql:3306
   runner:
     image: willwill/grader-runner
     depends_on:

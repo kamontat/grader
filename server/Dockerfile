@@ -1,9 +1,10 @@
 FROM django:1.9-python3
 ADD https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.3/s6-overlay-amd64.tar.gz /tmp/
+ADD https://github.com/vishnubob/wait-for-it/raw/master/wait-for-it.sh /usr/bin/
 ENTRYPOINT ["/init"]
 EXPOSE 80
 RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / && \
-	rm /tmp/s6-overlay-amd64.tar.gz
+	rm /tmp/s6-overlay-amd64.tar.gz && chmod +x /usr/bin/wait-for-it.sh
 RUN apt-get update && apt-get install -y pwgen nginx-light libffi-dev && \
 	rm -rf /var/lib/apt/lists/* && \
 	rm /var/www/htdocs/* || true

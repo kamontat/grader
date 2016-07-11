@@ -4,7 +4,7 @@ input:
     helper_file: helper.py
     helper: |
         import json
-        from .input_gen import run
+        from input_gen import run
         print(json.dumps([str(x) for x in run()]))
     cmd:
     - /usr/local/bin/python3

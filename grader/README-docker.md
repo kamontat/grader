@@ -1,5 +1,8 @@
 # Grader runner Docker image readme
 
+You probably want to use the [compose file](https://github.com/whs/grader) as this
+does not include other required services.
+
 Must run as privileged user
 
 Usage:

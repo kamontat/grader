@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv bash
+if [ ! -z "$WAIT_FOR_IT" ]; then
+	/usr/bin/wait-for-it.sh $WAIT_FOR_IT
+fi
