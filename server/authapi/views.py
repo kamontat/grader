@@ -18,7 +18,7 @@ class Login(APIView):
 
 	def post(self, request):
 		if 'username' not in request.data or 'password' not in request.data:
-			raise ParseError('username and password is required')
+			raise ParseError('username and password are required')
 
 		user = authenticate(username=request.data['username'], password=request.data['password'])
 		if not user:

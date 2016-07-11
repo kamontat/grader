@@ -79,7 +79,17 @@ app.controller('Login', ['User', '$state', '$scope', 'Restangular', function(Use
 
 	checkLogin();
 
-	$scope.login = {'username': '', 'password': ''};
+	$scope.login = {
+		'username': '',
+		'password': ''
+	};
+	/**
+	 * if registerState is 0 ; user not enter register btn
+	 * if registerState is 1 ; user enter is page (re-enter password)
+	 * if registerState is 2 ; user enter new password
+	 * if registerState is 3 ; user want to login
+	 * @type {number}
+	 */
 	$scope.registerState = 0;
 
 	var registerPassword = '';
@@ -87,6 +97,7 @@ app.controller('Login', ['User', '$state', '$scope', 'Restangular', function(Use
 	$scope.register = function(){
 		if($scope.registerState === 0){
 			if(!$scope.login.username || !$scope.login.password){
+				$scope.error = 'Enter username and password';
 				return;
 			}
 			registerPassword = $scope.login.password;
@@ -96,26 +107,34 @@ app.controller('Login', ['User', '$state', '$scope', 'Restangular', function(Use
 	};
 
 	$scope.submit = function(){
+		if(!$scope.login.username || !$scope.login.password){
+			if($scope.registerState != 1){
+				$scope.error = "Must enter username and password";
+			}
+			return;
+		}
 		if($scope.registerState == 1){
 			if($scope.login.password != registerPassword){
 				$scope.login.password = '';
 				$scope.error = 'Password do not match';
 				return;
 			}
+
 			$scope.error = '';
 			$scope.registerState = 2;
+
 			Restangular.all('auth_password/register').post($scope.login).then(function(data){
 				$scope.registerState = 0;
-				$scope.error = null;
-			}, function(data){
 				$scope.error = data.data.error;
+			}, function(data){
 				$scope.registerState = 1;
+				$scope.error = data.data.error;
 			});
 		}else{
 			Restangular.all('auth_password/').post($scope.login).then(function(data){
 				User.load().then(checkLogin);
 			}, function(data){
-				$scope.error = data.data.error;
+				$scope.error = data.data.detail;
 			});
 		}
 	};
