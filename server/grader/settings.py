@@ -152,7 +152,6 @@ REST_FRAMEWORK = {
 # Grader settings
 
 REGISTER_ALLOWED = True
-FRONTEND_URL = '/frontend/'
 BEANSTALK = ('127.0.0.1', 11300)
 BEANSTALK_TUBE = 'grader'
 WORKER_SHARED_SECRET = ''
