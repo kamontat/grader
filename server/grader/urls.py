@@ -15,13 +15,19 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.shortcuts import redirect
+from django.contrib.staticfiles.templatetags.staticfiles import static
+
+def redirect_frontend(req):
+    return redirect(static('frontend/index.html'))
 
 urlpatterns = [
     url(r'^server/admin/', admin.site.urls),
-    url(r'server/', include('authapi.urls')),
-    url(r'server/', include('problems.urls')),
-    url(r'server/', include('submission.urls')),
-    url(r'server/codeload/', include('codeload.urls')),
-    url(r'server/', include('taskapi.urls')),
-    url(r'server/queue/', include('queuestats.urls')),
+    url(r'^server/', include('authapi.urls')),
+    url(r'^server/', include('problems.urls')),
+    url(r'^server/', include('submission.urls')),
+    url(r'^server/codeload/', include('codeload.urls')),
+    url(r'^server/', include('taskapi.urls')),
+    url(r'^server/queue/', include('queuestats.urls')),
+    url(r'^$', redirect_frontend),
 ]
