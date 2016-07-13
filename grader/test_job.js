@@ -23,8 +23,9 @@ let job = new Job({
 		code: `import java.util.Scanner;
 public class CustomName {
 	public static void main(String[] args){
-		Scanner scan = new Scanner(System.in)
+		Scanner scan = new Scanner(System.in);
 		System.out.println(scan.nextLine());
+		scan.nextLine();
 	}
 }`,
 	},

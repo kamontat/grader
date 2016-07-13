@@ -105,7 +105,7 @@ class Job {
 	_runCase(cases, index = 1){
 		let testCase = cases.shift();
 		winston.info(`Running case ${index}: ${testCase}`);
-		let expected, thisResult = 'E';
+		let expected, thisResult = '';
 		return this._runOutput('output', this.data.output, testCase).then((e) => {
 			expected = e[0];
 
@@ -150,9 +150,9 @@ class Job {
 			}
 			return this._runCase(cases, index + 1);
 		}).then((nextResult) => {
-			return [thisResult].concat(nextResult);
+			return [thisResult || 'E'].concat(nextResult);
 		}, () => {
-			return [thisResult];
+			return [thisResult || 'E'];
 		});
 	}
 
