@@ -11,6 +11,7 @@ from grader import beanstalk
 from .serializers import *
 
 class ResultsViewSet(ReadOnlyModelViewSet):
+	permission_classes = (IsAuthenticated,)
 	serializer_class = ResultSerializer
 
 	def get_queryset(self):

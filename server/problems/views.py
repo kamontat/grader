@@ -2,11 +2,13 @@ from django.db.models import Q
 from django.utils import timezone
 
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
 from .models import *
 from .serializers import *
 
 class TestViewSet(viewsets.ModelViewSet):
+	permission_classes = (IsAuthenticated,)
 	serializer_class = TestSerializer
 
 	def get_queryset(self):
@@ -18,6 +20,7 @@ class TestViewSet(viewsets.ModelViewSet):
 		return objects
 
 class ProblemViewSet(viewsets.ModelViewSet):
+	permission_classes = (IsAuthenticated,)
 	serializer_class = ProblemSerializer
 
 	def get_queryset(self):
