@@ -178,12 +178,11 @@ app.controller('Problems', ['Restangular', '$stateParams', '$scope', '$interval'
 
 	$scope.loadProblem = loadProblem;
 
-	var autorefresh = $interval(function(){
-		loadStats();
-		loadProblem();
-	}, 10000);
+	var autorefreshProblem = $interval(loadProblem, 10000);
+	var autorefreshStats = $interval(loadStats, 30000);
 	$scope.$on('$destroy', function(){
-		$interval.cancel(autorefresh);
+		$interval.cancel(autorefreshProblem);
+		$interval.cancel(autorefreshStats);
 	});
 }]);
 app.controller('ShowProblem', ['Restangular', '$stateParams', '$scope', '$http', '$interpolate', '$interval', function(Restangular, params, $scope, $http, $interpolate, $interval){

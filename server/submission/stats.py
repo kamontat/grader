@@ -1,10 +1,11 @@
 from collections import namedtuple
 
 from django.db import connection
+from django.core.cache import cache
 
 from rest_framework.views import APIView
 from rest_framework.exceptions import NotFound, PermissionDenied
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from problems.models import Test
@@ -15,7 +16,7 @@ ScoreboardUserTuple = namedtuple('ScoreboardUserTuple', ['id', 'username', 'scor
 ScoreboardProblemTuple = namedtuple('ScoreboardProblemTuple', ['problem_id', 'id', 'name', 'lang', 'created_at', 'correct', 'size', 'wrong'])
 
 class Stats(APIView):
-	permission_classes = (AllowAny,)
+	permission_classes = (IsAuthenticated,)
 
 	def get(self, request, id):
 		try:
@@ -25,6 +26,12 @@ class Stats(APIView):
 
 		if not request.user.has_perm('problems.change_test') and not test.is_visible():
 			raise NotFound
+
+		cache_key = 'stats_{}'.format(id)
+
+		cached = cache.get(cache_key)
+		if cached:
+			return Response(cached)
 
 		cursor = connection.cursor()
 		cursor.execute("""SELECT `problems_problem`.`id` AS `id`,
@@ -53,19 +60,29 @@ class Stats(APIView):
 			item = StatsTuple(*item)
 			out.append(item._asdict())
 
+		cache.set(cache_key, out, 60)
+
 		return Response(out)
 
+
+
 class Scoreboard(APIView):
-	permission_classes = (AllowAny,)
+	permission_classes = (IsAuthenticated,)
 
 	def get(self, request, id):
 		if not request.user.has_perm('problems.change_test'):
-			raise PermissionDenied('User require change_test permission')
+			raise PermissionDenied('User requires change_test permission')
 
 		try:
 			test = Test.objects.get(pk=id)
 		except Test.DoesNotExist:
 			raise NotFound
+
+		cache_key = 'scoreboard_{}'.format(id)
+
+		cached = cache.get(cache_key)
+		if cached:
+			return Response(cached)
 
 		cursor = connection.cursor()
 		cursor.execute("""SELECT `id`, `username`, CAST(SUM(CASE WHEN `correct` = 1 THEN `point` ELSE 0 END) AS int) AS score FROM (
@@ -98,7 +115,7 @@ class Scoreboard(APIView):
 			WHERE `submission_result`.`state` = 2
 			AND `submission_result`.`user_id` = %s
 			AND `problems_problem`.`test_id` = %s
-			ORDER BY (CASE WHEN `submission_result`.`correct` = 1 THEN 1 ELSE 0 END) ASC, `size` DESC, `id` ASC""", [user[0], test.id])
+			ORDER BY (CASE WHEN `submission_result`.`correct` = 1 THEN 1 ELSE 0 END) ASC, `size` DESC, `submission_result`.`id` ASC""", [user[0], test.id])
 
 			problems = {}
 
@@ -118,5 +135,7 @@ class Scoreboard(APIView):
 			user_dict = user._asdict()
 			user_dict['problems'] = problems
 			out.append(user_dict)
+
+		cache.set(cache_key, out, 60)
 
 		return Response(out)
