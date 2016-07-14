@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from problems.models import Test, Problem
-from grader.beanstalk import beanstalk
+from grader import beanstalk
 from .serializers import *
 
 class ResultsViewSet(ReadOnlyModelViewSet):
@@ -23,7 +23,7 @@ class Submit(APIView):
 	permission_classes = (IsAuthenticated,)
 
 	def post(self, request, id, problem_id):
-		if not beanstalk:
+		if not beanstalk.get():
 			raise QueueDown()
 
 		try:

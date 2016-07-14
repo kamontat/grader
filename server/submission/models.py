@@ -2,7 +2,7 @@ import json
 
 from django.db import models
 from django.contrib.auth.models import User
-from grader.beanstalk import beanstalk
+from grader import beanstalk
 
 class Result(models.Model):
 	problem = models.ForeignKey('problems.Problem')
@@ -66,4 +66,4 @@ class Result(models.Model):
 		}
 
 	def create_job(self):
-		beanstalk.put(json.dumps(self.create_job_data()))
+		beanstalk.get().put(json.dumps(self.create_job_data()))

@@ -21,7 +21,11 @@ class ResultAdmin(admin.ModelAdmin):
 
 	def rerun(self, request, queryset):
 		for item in queryset:
-			item.create_job()
+			try:
+				item.create_job()
+			except AttributeError:
+				messages.add_message(request, messages.ERROR, 'Cannot connect to the task queue')
+				return
 		queryset.update(state=0)
 		messages.add_message(request, messages.SUCCESS, '{} items sent to task queue'.format(len(queryset)))
 

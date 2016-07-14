@@ -3,17 +3,18 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 
-from grader.beanstalk import beanstalk
+from grader import beanstalk
 
 class StatsAPI(APIView):
 	permission_classes = (IsAdminUser,)
 
 	def get(self, request):
-		if not beanstalk:
+		instance = beanstalk.get()
+		if not instance:
 			raise APIException('Queue server is not ready')
 
-		stats = beanstalk.stats()
-		tube_stats = beanstalk.stats_tube(beanstalk.using())
+		stats = instance.stats()
+		tube_stats = instance.stats_tube(instance.using())
 
 		return Response({
 			'stats': stats,
