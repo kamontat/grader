@@ -18,7 +18,7 @@ class TestSerializer(serializers.ModelSerializer):
 		return self.context['request'].user.has_perm('problems.change_test')
 
 	def get_problem(self, object):
-		return object.problem_set.count()
+		return object.problems
 
 	def is_readonly(self, object):
 		return object.is_readonly()

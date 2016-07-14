@@ -1,4 +1,4 @@
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.utils import timezone
 
 from rest_framework import viewsets
@@ -12,7 +12,7 @@ class TestViewSet(viewsets.ModelViewSet):
 	serializer_class = TestSerializer
 
 	def get_queryset(self):
-		objects = Test.objects.all()
+		objects = Test.objects.all().annotate(problems=Count('problem'))
 
 		if not self.request.user.has_perm('problems.change_test'):
 			objects = objects.filter(Q(start__lte=timezone.now()) | Q(start=None))
