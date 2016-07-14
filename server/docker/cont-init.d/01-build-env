@@ -31,6 +31,7 @@ import dj_database_url
 
 DEBUG = $DEBUG
 DATABASES = {'default': dj_database_url.parse("$DATABASE_URL")}
+DATABASES['default']['CONN_MAX_AGE'] = 600
 SECRET_KEY = "$SECRET_KEY"
 ALLOWED_HOSTS = ["$ALLOWED_HOST", "web"]
 WORKER_SHARED_SECRET = "$SECRET"
