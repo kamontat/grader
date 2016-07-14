@@ -94,6 +94,5 @@ class ProblemSerializer(serializers.ModelSerializer):
 		model = Problem
 		fields = (
 			'id', 'name', 'description', 'point', 'creator', 'graders',
-			'test_id', 'acl_edit', 'input_lang', 'output_lang', 'comparator',
-			'passed',
+			'test_id', 'acl_edit', 'passed',
 		)
