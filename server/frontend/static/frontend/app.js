@@ -271,7 +271,7 @@ app.controller('Scoreboard', ['$stateParams', '$scope', '$http', '$interval', 'l
 	};
 	loadScoreboard();
 
-	var autorefresh = $interval(loadScoreboard, 15000);
+	var autorefresh = $interval(loadScoreboard, 60000);
 
 	$scope.$on('$destroy', function(){
 		$interval.cancel(autorefresh);
