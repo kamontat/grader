@@ -36,6 +36,7 @@ def validate_grader_schema(value):
 		message = []
 
 		for key, value in validator.errors.items():
-			message.append('{}: {}'.format(key, value))
+			for item in value:
+				message.append('{}: {}'.format(key, item))
 
 		raise ValidationError(', '.join(message))
