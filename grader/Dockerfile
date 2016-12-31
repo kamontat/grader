@@ -1,4 +1,4 @@
-FROM node:6.2
+FROM node:6-alpine
 MAINTAINER Manatsawin Hanmongkolchai <manatsawin@gmail.com>
 COPY .  /grader
 WORKDIR /grader
