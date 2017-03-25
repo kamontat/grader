@@ -3,7 +3,7 @@ let winston = require('winston');
 let yaml = require('js-yaml');
 let Container = require('./container');
 
-let settingsCache = {}
+let settingsCache = {};
 
 class Job {
 	constructor(data, docker, beanstalk, id){

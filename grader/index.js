@@ -103,11 +103,11 @@ let getJob = () => {
 			winston.debug(`Notify server ${resp.statusCode}: ${body}`);
 		});
 
-		let job = new Job(jobDetail, docker, client, jobId)
+		let job = new Job(jobDetail, docker, client, jobId);
 		job.autoExtend();
 		job.grade().then((result) => {
 			let errors = job.collectedErrors.join('\n');
-			let correct = result.filter((item) => item != 'P').length === 0;
+			let correct = result.filter((item) => item !== 'P').length === 0;
 			result = result.join('');
 
 			request.post(argv.server, {
@@ -139,4 +139,4 @@ let getJob = () => {
 			});
 		});
 	});
-}
+};
