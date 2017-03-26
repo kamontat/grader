@@ -8,7 +8,7 @@ RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / && \
 RUN apt-get update && apt-get install -y pwgen nginx-light libffi-dev && \
 	rm -rf /var/lib/apt/lists/* && \
 	rm /var/www/htdocs/* || true
-RUN pip3 install gunicorn dj_database_url && \
+RUN pip3 install gunicorn dj_database_url mysqlclient && \
 	useradd -d /grader -MN -s /bin/false grader && \
 	mkdir -p /data/media && chown -R grader /data
 
