@@ -54,7 +54,7 @@ class UserView(APIView):
 	permission_classes = (AllowAny,)
 
 	def get(self, request):
-		if not request.user.is_authenticated():
+		if not request.user.is_authenticated:
 			return Response({})
 
 		return Response(UserSerializer(request.user).data)

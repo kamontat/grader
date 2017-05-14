@@ -5,8 +5,8 @@ from django.contrib.auth.models import User
 from grader import beanstalk
 
 class Result(models.Model):
-	problem = models.ForeignKey('problems.Problem')
-	user = models.ForeignKey(User)
+	problem = models.ForeignKey('problems.Problem', on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	state = models.IntegerField(default=0, choices=[
 		(0, 'Created'),
 		(1, 'Grading'),

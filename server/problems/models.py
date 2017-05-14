@@ -48,7 +48,7 @@ def output_filename(instance, filename):
 	return 'output/{}'.format(instance.id)
 
 class Problem(models.Model):
-	test = models.ForeignKey(Test)
+	test = models.ForeignKey(Test, on_delete=models.CASCADE)
 	name = models.CharField(max_length=255)
 	description = models.TextField(blank=True, help_text='<a href="http://commonmark.org/help/">Markdown</a> and full HTML allowed')
 	point = models.IntegerField(default=1)

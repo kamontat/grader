@@ -1,5 +1,5 @@
-FROM python:3.5
-ADD https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.3/s6-overlay-amd64.tar.gz /tmp/
+FROM python:3.6
+ADD https://github.com/just-containers/s6-overlay/releases/download/v1.19.1.1/s6-overlay-amd64.tar.gz /tmp/
 ADD https://github.com/vishnubob/wait-for-it/raw/master/wait-for-it.sh /usr/bin/
 ENTRYPOINT ["/init"]
 EXPOSE 80
