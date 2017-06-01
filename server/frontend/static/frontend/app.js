@@ -152,7 +152,7 @@ app.controller('Tests', ['Restangular', '$scope', function(Restangular, $scope){
 }]);
 
 app.controller('Problems', ['Restangular', '$stateParams', '$scope', '$interval', function(Restangular, params, $scope, $interval){
-	var object = Restangular.one('test', params.test)
+	var object = Restangular.one('test', params.test);
 	object.get().then(function(data){
 		$scope.test = data;
 	});
@@ -208,7 +208,7 @@ app.controller('ShowProblem', ['Restangular', '$stateParams', '$scope', '$http',
 
 				item.line = $interpolate("#{{sub.id}} at {{sub.created_at|date:'medium'}} [{{sub.result}}]")({sub: item});
 				if(item.correct){
-					item.line = "✔ " + item.line
+					item.line = "✔ " + item.line;
 				}
 				return item;
 			});
@@ -313,12 +313,12 @@ app.filter('state', function(){
 
 app.filter('bytes', function() {
 	return function(bytes, precision) {
-			if (bytes==0 || isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
+			if (bytes === 0 || isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
 			if (typeof precision === 'undefined') precision = 1;
 			var units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB'],
 					number = Math.floor(Math.log(bytes) / Math.log(1024));
 			return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) + units[number];
-	}
+	};
 });
 
 app.value("languages", {
@@ -330,7 +330,7 @@ app.value("languages", {
 	'java': 'Java',
 	'c': 'C',
 	'cpp': 'C++',
-	'cs': 'C#',
+	'cs': 'C#'
 });
 
 })();
