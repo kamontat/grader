@@ -24,7 +24,7 @@ class TestSerializer(serializers.ModelSerializer):
 		return object.is_readonly()
 
 	def get_user_score(self, object):
-		if not self.context['request'].user.is_authenticated():
+		if not self.context['request'].user.is_authenticated:
 			return None
 
 		sum = Result.objects.filter(
@@ -40,7 +40,7 @@ class TestSerializer(serializers.ModelSerializer):
 		return sum
 
 	def get_user_finished(self, object):
-		if not self.context['request'].user.is_authenticated():
+		if not self.context['request'].user.is_authenticated:
 			return None
 
 		return Result.objects.filter(
@@ -68,7 +68,7 @@ class ProblemSerializer(serializers.ModelSerializer):
 		return self.context['request'].user.has_perm('problems.change_problem')
 
 	def get_user_passed(self, object):
-		if not self.context['request'].user.is_authenticated():
+		if not self.context['request'].user.is_authenticated:
 			return None
 
 		return Result.objects.filter(
