@@ -1,0 +1,12 @@
+image: mono:4.8.0-onbuild
+input_file_regex_format: $1.cs
+run_file_regex_format: $1
+compile:
+- mcs
+- -o
+- /grader/$1.exe
+cmd:
+- mono
+- /grader/$1.exe
+
+# docker run --rm -v "$(pwd)":/mnt frolvlad/alpine-mono sh -c "mcs -out:/mnt/hello.exe /mnt/hello.cs && mono /mnt/hello.exe"
