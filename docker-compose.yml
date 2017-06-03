@@ -23,7 +23,7 @@ services:
     volumes:
       - web-data:/data
     ports:
-      - "8080:80"
+      - "80:80"
     environment:
       SECRET: $GRADER_SECRET
       DATABASE_URL: mysql://root:$MYSQL_PASSWORD@mysql/grader
