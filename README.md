@@ -38,6 +38,10 @@ The admin page is available at http://localhost:8080/server/admin/ .
 If you haven't noticed, the admin username is `admin` and password is `hackme`
 unless you changed the environment variables to docker-compose.
 
+## Error
+maybe
+- out-of-memory - you may need to swap space to increase your computr memory (not recommented)
+
 ## Components
 
 This grader composes of 3 components:
