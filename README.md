@@ -15,10 +15,14 @@ sudo MYSQL_PASSWORD=hackme GRADER_SECRET=hackme \
      docker-compose up
 ```
 
-Other available variables:
-
-- ADMIN_EMAIL
-- ALLOWED_HOST
+Available variables:
+- MYSQL_PASSWORD - mysql password
+- GRADER_SECRET - It is used by runner to authenticate with the grader backend, This string must secret and unpredictable.
+- ADMIN_USERNAME - admin username
+- ADMIN_PASSWORD - admin password
+- ADMIN_EMAIL - admin email (optional)
+- GRADER_VERBOSE - to enable verbose
+- ALLOWED_HOST - this is security feature of [django](https://docs.djangoproject.com/en/1.11/ref/settings/#allowed-hosts)
 
 To make initial grading fast, you may want to download the images used:
 
