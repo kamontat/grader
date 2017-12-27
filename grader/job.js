@@ -14,7 +14,7 @@ class Job {
         this.collectedErrors = [];
         this.containers = {};
 
-        this.extendInterval = 10000;ff
+        this.extendInterval = 10000;
         this.inputTimeout = 1000;
         this.compileTimeout = 30000;
     }
@@ -189,7 +189,9 @@ class Job {
                 OpenStdin: true,
                 AttachStdin: true,
                 User: settings.compile ? '0' : '1000',
-                Volumes: settings.compile ? {'/grader/': {}} : null
+                Volumes: settings.compile ? {
+                    '/grader/': {}
+                } : null
             }).then(() => {
                 let files = {};
                 files[`/grader/${filename}`] = config.code;
